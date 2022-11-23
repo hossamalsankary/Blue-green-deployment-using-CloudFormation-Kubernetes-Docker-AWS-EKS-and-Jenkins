@@ -1,27 +1,27 @@
 def serverIP = 'soe data'
 pipeline {
   agent any
- 
+  
 
   environment {
     registry = "hossamalsankary/nodejs_app"
     registryCredential = 'docker_credentials'
-    // ANSIBLE_PRIVATE_KEY = credentials('secritfile')
+    ANSIBLE_PRIVATE_KEY = credentials('secritfile')
   }
 
   stages {
     stage("install dependencies") {
 
       steps {
-        sh ' ls  -alh '
-        sh 'node --version'
+      
+        sh 'npm install'
       }
-      // post {
-      //   always {
-      //     sh 'bash ./clearDockerImages.sh'
-      //   }
+      post {
+        always {
+          sh 'bash ./clearDockerImages.sh'
+        }
 
-      // }
+      }
 
     }
 
@@ -39,8 +39,7 @@ pipeline {
         stage("Build") {
 
             steps {
-              sh 'pwd'
-              sh 'npm  --version'
+               sh 'npm run build'
             }
 
           }
@@ -49,39 +48,39 @@ pipeline {
   
 
  
-  //   stage("Build Docker Image") {
-  //     steps {
+    stage("Build Docker Image") {
+      steps {
 
-  //       script {
-  //         dockerImage = docker.build registry + ":$BUILD_NUMBER"
-  //       }
-  //     }
-  //     post {
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+      post {
 
-  //       failure {
-  //         sh '  docker system prune --volumes -a -f '
-  //       }
-  //     }
-  //   }
+        failure {
+          sh '  docker system prune --volumes -a -f '
+        }
+      }
+    }
 
-  //   stage("push image to docker hup") {
-  //     steps {
-  //       script {
-  //         docker.withRegistry('', registryCredential) {
-  //           dockerImage.push()
-  //         }
-  //       }
-  //     }
-  //   }
+    stage("push image to docker hup") {
+      steps {
+        script {
+          docker.withRegistry('', registryCredential) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
 
-  //   stage("Test Docker Image In Dev Server ") {
-  //     steps {
-  //       sh ' docker run --name test_$BUILD_NUMBER -d -p 5000:8080 $registry:$BUILD_NUMBER '
-  //       sh 'sleep 2'
-  //       sh 'curl localhost:5000'
-  //     }
+    stage("Test Docker Image In Dev Server ") {
+      steps {
+        sh ' docker run --name test_$BUILD_NUMBER -d -p 5000:8080 $registry:$BUILD_NUMBER '
+        sh 'sleep 2'
+        sh 'curl localhost:5000'
+      }
 
-  //   }
+    }
   //   stage("Deply IAC ") {
   //     when {
   //       branch 'master'
@@ -158,27 +157,27 @@ pipeline {
 
   // }
 
-  // post {
-  //   always {
-  //     cleanWs(cleanWhenNotBuilt: false,
-  //       deleteDirs: true,
-  //       disableDeferredWipeout: true,
-  //       notFailBuild: true,
-  //       patterns: [
-  //         [pattern: '.gitignore', type: 'INCLUDE'],
-  //         [pattern: '.propsfile', type: 'EXCLUDE']
-  //       ])
-  //   }
-  //   success {
-  //     echo "========A executed successfully========"
-  //     sh 'bash ./clearDockerImages.sh'
+  post {
+    always {
+      cleanWs(cleanWhenNotBuilt: false,
+        deleteDirs: true,
+        disableDeferredWipeout: true,
+        notFailBuild: true,
+        patterns: [
+          [pattern: '.gitignore', type: 'INCLUDE'],
+          [pattern: '.propsfile', type: 'EXCLUDE']
+        ])
+    }
+    success {
+      echo "========A executed successfully========"
+      sh 'bash ./clearDockerImages.sh'
 
-  //   }
-  //   failure {
+    }
+    failure {
           
 
-  //        sh 'bash ./clearDockerImages.sh'
-  //   }
-  // }
+         sh 'bash ./clearDockerImages.sh'
+    }
+  }
   }
 }
