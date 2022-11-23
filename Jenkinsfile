@@ -97,7 +97,7 @@ pipeline {
       }
 
       stage("Make sure  that we have geen-namespace and blue-ns "){
-
+          steps{
        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
 
             // check for namespaces blue and green
@@ -105,8 +105,10 @@ pipeline {
             
          }
       }
+      }
 
     stage("Deploy blue deployment if not exsit "){
+          steps{
 
         withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
 
@@ -115,9 +117,11 @@ pipeline {
 
               
           }
+          }
         }
 
        stage("Deploy Green deployment if not exsit "){
+         steps{
 
        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
 
@@ -128,6 +132,7 @@ pipeline {
            sh 'bash  kubectl  apply  -f ./k8s/blue-service.yaml '  
 
             
+         }
          }
       }
 
