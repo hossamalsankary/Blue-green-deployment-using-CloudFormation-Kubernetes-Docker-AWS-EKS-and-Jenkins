@@ -10,7 +10,6 @@ pipeline {
   environment {
     registry = "hossamalsankary/nodejs_app"
     registryCredential = 'docker_credentials'
-    ANSIBLE_PRIVATE_KEY = credentials('secritfile')
   }
 
   stages {
