@@ -18,7 +18,7 @@ spec:
         app: green
     spec:
       containers:
-      - image: hossamalsankary/nodejs_app:49
+      - image: DOCKER
         name: green
         ports:
         - containerPort: 8080

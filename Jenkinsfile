@@ -84,11 +84,10 @@ pipeline {
       }
     }
 
-    stage("Test Docker Image In Dev Server ") {
+    stage("Update K8s Green deployment with new image ") {
       steps {
-        sh ' docker run --name test_$BUILD_NUMBER -d -p 5000:8080 $registry:$BUILD_NUMBER '
-        sh 'sleep 2'
-        sh 'curl localhost:5000'
+        sh 'sed -i "s/DOCKER/$registry:$BUILD_NUMBER/g" ./k8s/green-deployment.yaml '
+        
       }
 
     }
@@ -150,10 +149,36 @@ pipeline {
       stage("Smoke Test"){
         steps{
            withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-
+            sh ' kubectl get service,pod --namespace=green-deployment --all-namespaces=true'
             sh 'bash ./bash-scripts/smokeTest.sh'
 
            }
+        }
+      }
+
+      stage('hey we just deploy green version ') {
+        steps {
+          input 'we just deploy green version after approving we going to update production'
+        }
+      }
+
+      stage("update blue app with new docker Image "){
+
+        steps{
+          sh 'sed -i "s/DOCKER/$registry:$BUILD_NUMBER/g" ./k8s/blue-deployment.yaml '
+          // update the blue app with new docker image
+            // deploymet
+           sh '  kubectl  apply  -f ./k8s/blue-deployment.yaml '
+            // service
+           sh '  kubectl  apply  -f ./k8s/blue-service.yaml '  
+
+
+        }
+      }
+
+      stage('Destroy Green version'){
+        steps{
+          sh 'bash ./bash-scripts/clear-green-deployment'
         }
       }
 
