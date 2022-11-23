@@ -14,6 +14,7 @@ pipeline {
     stage("install dependencies") {
 
       steps {
+        sh " pwd"
         sh 'npm install'
       }
       post {
