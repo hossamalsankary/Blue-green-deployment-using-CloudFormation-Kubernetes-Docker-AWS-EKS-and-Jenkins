@@ -74,14 +74,14 @@ pipeline {
       }
     }
 
-    stage("Test Docker Image In Dev Server ") {
-      steps {
-        sh ' docker run --name test_$BUILD_NUMBER -d -p 5000:8080 $registry:$BUILD_NUMBER '
-        sh 'sleep 2'
-        sh 'curl localhost:5000'
-      }
+    // stage("Test Docker Image In Dev Server ") {
+    //   steps {
+    //     sh ' docker run --name test_$BUILD_NUMBER -d -p 5000:8080 $registry:$BUILD_NUMBER '
+    //     sh 'sleep 2'
+    //     sh 'curl localhost:5000'
+    //   }
 
-    }
+    // }
    
  
     // stage("Somok test in prod server") {
