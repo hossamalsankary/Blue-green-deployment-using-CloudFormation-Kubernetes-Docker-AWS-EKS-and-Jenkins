@@ -15,7 +15,7 @@ pipeline {
     stage("install dependencies") {
 
       steps {
-        sh ' pwd '
+        sh ' ls -al  '
         sh 'node --version'
       }
       // post {
