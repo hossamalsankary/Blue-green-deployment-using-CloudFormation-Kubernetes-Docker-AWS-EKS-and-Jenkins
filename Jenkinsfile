@@ -138,6 +138,8 @@ pipeline {
 
       stage("Smoke Test"){
         steps{
+           withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+
           sh '''
         export blueIP=$(kubectl get services --namespace=blue-deployment  blueservice --output jsonpath='{.status.loadBalancer.ingress[0]}'| tr -d '"' | tr -d '}' | cut -d ':' -f 2 )
          export greenIP=$(kubectl get services --namespace=green-deployment  greenservice --output jsonpath='{.status.loadBalancer.ingress[0]}'| tr -d '"' | tr -d '}' | cut -d ':' -f 2 )
@@ -145,6 +147,8 @@ pipeline {
           '''
           sh 'curl ${blueIP}:8080'
           sh 'curl ${greenIP}:8080'
+
+           }
         }
       }
 
