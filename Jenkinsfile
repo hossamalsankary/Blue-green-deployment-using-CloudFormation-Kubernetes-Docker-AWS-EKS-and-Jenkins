@@ -86,7 +86,10 @@ pipeline {
 
     stage("Update K8s Green deployment with new image ") {
       steps {
-        sh 'sed -i "s/DOCKER/$registry:$BUILD_NUMBER/g" ./k8s/green-deployment.yaml '
+        sh ''' 
+        sed -i "s/DOCKER/$registry:$BUILD_NUMBER/g" ./k8s/green-deployment.yaml
+        
+         '''
         
       }
 
@@ -165,7 +168,7 @@ pipeline {
       stage("update blue app with new docker Image "){
 
         steps{
-          sh "sed -i 's/DOCKER/$registry:$BUILD_NUMBER/g' ./k8s/blue-deployment.yaml "
+          sh 'sed -i "s/DOCKER/$registry:$BUILD_NUMBER/g" ./k8s/blue-deployment.yaml '
           // update the blue app with new docker image
             // deploymet
            sh '  kubectl  apply  -f ./k8s/blue-deployment.yaml '
