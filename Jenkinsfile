@@ -10,79 +10,79 @@ pipeline {
   }
 
   stages {
-    // stage("install dependencies") {
+    stage("install dependencies") {
 
-    //   steps {
-    //   dir("node-app"){
+      steps {
+      dir("node-app"){
 
-    //     sh 'npm install'
-    //   }
-    //   }
-    //   post {
-    //     always {
-    //       sh 'bash ./bash-scripts/clearDockerImages.sh'
-    //     }
+        sh 'npm install'
+      }
+      }
+      post {
+        always {
+          sh 'bash ./bash-scripts/clearDockerImages.sh'
+        }
 
-    //   }
+      }
 
-    // }
+    }
 
-    // stage(" Build and Test"){
-    //   parallel {
-    //     stage("Test") {
+    stage(" Build and Test"){
+      parallel {
+        stage("Test") {
 
-    //         steps {
+            steps {
 
-    //           dir("node-app"){
+              dir("node-app"){
 
-    //           sh 'npm run  test:unit'
-    //           }
+              sh 'npm run  test:unit'
+              }
 
-    //         }
+            }
 
-    //       }
-    //     stage("Build") {
+          }
+        stage("Build") {
 
-    //         steps {
-    //           dir("node-app"){
-    //            sh 'npm run build'
+            steps {
+              dir("node-app"){
+               sh 'npm run build'
 
-    //           }
-    //         }
+              }
+            }
 
-    //       }
-    //   }
-    // }
+          }
+      }
+    }
   
 
  
-    // stage("Build Docker Image") {
-    //   steps {
+    stage("Build Docker Image") {
+      steps {
         
-    //     script {
-    //       dir("node-app"){
+        script {
+          dir("node-app"){
 
-    //       dockerImage = docker.build registry + ":$BUILD_NUMBER"
-    //       }
-    //     }
-    //   }
-    //   post {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          }
+        }
+      }
+      post {
 
-    //     failure {
-    //        sh 'bash ./bash-scripts/clearDockerImages.sh'
-    //     }
-    //   }
-    // }
+        failure {
+           sh 'bash ./bash-scripts/clearDockerImages.sh'
+        }
+      }
+    }
 
-    // stage("push image to docker hup") {
-    //   steps {
-    //     script {
-    //       docker.withRegistry('', registryCredential) {
-    //         dockerImage.push()
-    //       }
-    //     }
-    //   }
-    // }
+    stage("push image to docker hup") {
+      steps {
+        script {
+          docker.withRegistry('', registryCredential) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
 
     stage("Update K8s Green deployment with new image ") {
       steps {
@@ -154,6 +154,7 @@ pipeline {
       stage("Smoke Test"){
         steps{
            withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+            sh 
             sh ' kubectl get service,pod --namespace=green-deployment --all-namespaces=true'
             sh 'bash ./bash-scripts/smokeTest.sh'
 
