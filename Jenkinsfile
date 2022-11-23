@@ -26,54 +26,54 @@ pipeline {
 
     }
 
-    stage("Test and Build"){
-      parallel {
-        stage("Test") {
+    // stage("Test and Build"){
+    //   parallel {
+    //     stage("Test") {
 
-            steps {
+    //         steps {
 
-              sh 'npm run  test:unit'
+    //           sh 'npm run  test:unit'
 
-            }
+    //         }
 
-          }
-        stage("Build") {
+    //       }
+    //     stage("Build") {
 
-            steps {
+    //         steps {
 
-              sh 'npm run build'
-            }
+    //           sh 'npm run build'
+    //         }
 
-          }
-      }
-    }
+    //       }
+    //   }
+    // }
   
 
  
-    stage("Build Docker Image") {
-      steps {
+    // stage("Build Docker Image") {
+    //   steps {
 
-        script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
-        }
-      }
-      post {
+    //     script {
+    //       dockerImage = docker.build registry + ":$BUILD_NUMBER"
+    //     }
+    //   }
+    //   post {
 
-        failure {
-          sh '  docker system prune --volumes -a -f '
-        }
-      }
-    }
+    //     failure {
+    //       sh '  docker system prune --volumes -a -f '
+    //     }
+    //   }
+    // }
 
-    stage("push image to docker hup") {
-      steps {
-        script {
-          docker.withRegistry('', registryCredential) {
-            dockerImage.push()
-          }
-        }
-      }
-    }
+    // stage("push image to docker hup") {
+    //   steps {
+    //     script {
+    //       docker.withRegistry('', registryCredential) {
+    //         dockerImage.push()
+    //       }
+    //     }
+    //   }
+    // }
 
     // stage("Test Docker Image In Dev Server ") {
     //   steps {
