@@ -127,9 +127,9 @@ pipeline {
 
             // update the greep app with new docker image
             // deploymet
-           sh ' bash kubectl  create  -f ./k8s/blue-deployment.yaml '
+           sh '  kubectl  apply  -f ./k8s/blue-deployment.yaml '
             // service
-           sh 'bash  kubectl  create  -f ./k8s/blue-service.yaml '  
+           sh '  kubectl  apply  -f ./k8s/blue-service.yaml '  
 
             
          }
