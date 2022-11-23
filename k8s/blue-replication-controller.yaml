@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: blue
+spec:
+  replicas: 1
+  selector:
+    app: blue
+  template:
+    metadata:
+      name: blue
+      labels:
+        app: blue
+    spec:
+      containers:
+      - name: blue
+        image: sidiali/capstone_repo:capstone_app 
+        ports:
+        - containerPort: 80
