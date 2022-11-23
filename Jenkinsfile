@@ -81,103 +81,10 @@ pipeline {
       }
 
     }
-  //   stage("Deply IAC ") {
-  //     when {
-  //       branch 'master'
-  //     }
-  //     steps {
-  //       withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-  //         dir("terraform-aws-instance") {
-  //           sh 'terraform init'
-  //           sh 'terraform destroy --auto-approve'
-  //           sh 'terraform apply --auto-approve'
-  //           sh 'terraform output  -raw server_ip > tump.txt '
-  //           script {
-  //             serverIP = readFile('tump.txt').trim()
-  //           }
 
-  //         }
-  //       }
+ 
 
-  //     }
-  //     post {
 
-  //       success {
-  //         echo "we  successful deploy IAC"
-  //       }
-  //       failure {
-  //         withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-
-  //           dir("terraform-aws-instance") {
-  //             sh 'terraform destroy --auto-approve'
-
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  //   stage("ansbile") {
-  //     when {
-  //       branch 'master'
-  //     }
-  //     steps {
-  //       dir("./terraform-aws-instance") {
-  //        sh "  echo ${serverIP} "
-  //         sh " ansible-playbook -i ansbile/inventory/inventory --extra-vars ansible_ssh_host=${serverIP} --extra-vars  IMAGE_NAME=$registry:$BUILD_NUMBER --private-key=$ANSIBLE_PRIVATE_KEY ./ansbile/inventory/deploy.yml "
-
-  //       }
-  //     }
-  //   }
-  //   stage("Somok test in prod server") {
-  //       when {
-  //       branch 'master'
-  //     }
-  //     steps {
-  //       echo "${serverIP}"
-        
-  //       sh  "curl ${serverIP} "
-  //     }
-  //     post {
-
-  //       success {
-  //         echo "====> Somok test successful ====>"
-  //       }
-  //       failure {
-  //         echo "====++++only when failed++++===="
-  //         withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-
-  //           dir("terraform-aws-instance") {
-  //            sh 'terraform destroy --auto-approve'
-
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-
-  // }
-
-  post {
-    always {
-      cleanWs(cleanWhenNotBuilt: false,
-        deleteDirs: true,
-        disableDeferredWipeout: true,
-        notFailBuild: true,
-        patterns: [
-          [pattern: '.gitignore', type: 'INCLUDE'],
-          [pattern: '.propsfile', type: 'EXCLUDE']
-        ])
-    }
-    success {
-      echo "========A executed successfully========"
-      sh 'bash ./clearDockerImages.sh'
-
-    }
-    failure {
-          
-
-         sh 'bash ./clearDockerImages.sh'
-    }
-  }
+  
   }
 }
