@@ -136,5 +136,17 @@ pipeline {
          }
       }
 
+      stage("Smoke Test"){
+        steps{
+          sh '''
+        export blueIP=$(kubectl get services --namespace=blue-deployment  blueservice --output jsonpath='{.status.loadBalancer.ingress[0]}'| tr -d '"' | tr -d '}' | cut -d ':' -f 2 )
+         export greenIP=$(kubectl get services --namespace=green-deployment  greenservice --output jsonpath='{.status.loadBalancer.ingress[0]}'| tr -d '"' | tr -d '}' | cut -d ':' -f 2 )
+
+          '''
+          sh 'curl ${blueIP}:8080'
+          sh 'curl ${greenIP}:8080'
+        }
+      }
+
   }
 }
