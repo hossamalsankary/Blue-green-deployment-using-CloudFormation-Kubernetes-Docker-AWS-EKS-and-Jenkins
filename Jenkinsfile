@@ -4,9 +4,7 @@ pipeline {
   options {
     skipDefaultCheckout(true)
   }
-  parameters {
-    string(name: 'server_ip', defaultValue: '')
-  }
+
   environment {
     registry = "hossamalsankary/nodejs_app"
     registryCredential = 'docker_credentials'
