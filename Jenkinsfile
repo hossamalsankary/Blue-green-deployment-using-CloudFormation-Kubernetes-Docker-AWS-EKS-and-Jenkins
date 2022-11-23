@@ -195,7 +195,7 @@ pipeline {
       stage('Destroy Green version'){
         steps{
 
-                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+      withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                  // update the blue app with new docker image
            sh 'bash ./bash-scripts/clear-green-deployment.sh' 
 
