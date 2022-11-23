@@ -56,33 +56,33 @@ pipeline {
   
 
  
-    stage("Build Docker Image") {
-      steps {
+    // stage("Build Docker Image") {
+    //   steps {
         
-        script {
-          dir("node-app"){
+    //     script {
+    //       dir("node-app"){
 
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
-          }
-        }
-      }
-      post {
+    //       dockerImage = docker.build registry + ":$BUILD_NUMBER"
+    //       }
+    //     }
+    //   }
+    //   post {
 
-        failure {
-           sh 'bash ./bash-scripts/clearDockerImages.sh'
-        }
-      }
-    }
+    //     failure {
+    //        sh 'bash ./bash-scripts/clearDockerImages.sh'
+    //     }
+    //   }
+    // }
 
-    stage("push image to docker hup") {
-      steps {
-        script {
-          docker.withRegistry('', registryCredential) {
-            dockerImage.push()
-          }
-        }
-      }
-    }
+    // stage("push image to docker hup") {
+    //   steps {
+    //     script {
+    //       docker.withRegistry('', registryCredential) {
+    //         dockerImage.push()
+    //       }
+    //     }
+    //   }
+    // }
 
     stage("Update K8s Green deployment with new image ") {
       steps {
