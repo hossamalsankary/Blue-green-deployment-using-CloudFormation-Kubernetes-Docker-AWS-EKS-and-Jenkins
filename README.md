@@ -48,7 +48,6 @@ scenario:
     }
 
 ```
-<img src="/images/1.png" alt="Permissions" />
 
 
 - Stage(2) run command (npm test)  to test the code before build it
@@ -63,7 +62,6 @@ scenario:
 
           }
 ```
-<img src="/images/2.png" alt="Permissions" />
 
 - Stage(3) run command (npm build)
 ```diff
@@ -78,7 +76,6 @@ scenario:
            
 
 ```
-<img src="/images/3.png" alt="Permissions" />
 
 - Stage (4) build our app docker image
 ```diff 
@@ -97,7 +94,6 @@ scenario:
       }
     }
 ```
-<img src="/images/4.png" alt="Permissions" />
 
 - Stage (5) push the docker image to the docker hub account with a different tag number
 ``` diff 
@@ -111,7 +107,6 @@ stage("push image to docker hup") {
       }
     }
 ```
-<img src="/images/5.png" alt="Permissions" />
 
 - Stage (6) create kubecontext file
 ```diff 
@@ -128,7 +123,6 @@ stage('create kubecontext file') {
     }
 
 ```
-<img src="/images/6.png" alt="Permissions" />
 
 - Stage (7) Make sure  that we have geen-namespace and blue-ns 
 ```diff 
@@ -157,7 +151,6 @@ stage('create kubecontext file') {
       }
     }
 ```
-<img src="/images/8.png" alt="Permissions" />
 
 - Stage(10) "Deploy Green deployment if not exsit 
 ```diff 
@@ -177,7 +170,6 @@ stage('create kubecontext file') {
     }
 ```
 
-<img src="/images/9.png" alt="Permissions" />
 
 - stage(11) Smoke Test
 ```diff 
@@ -192,7 +184,6 @@ stage('create kubecontext file') {
     }
 ```
 
-<img src="/images/10.png" alt="Permissions" />
 
 ## stage(12) update blue app with new docker Image
 ```diff
@@ -240,8 +231,27 @@ stage("update blue app with new docker Image ") {
  ```
 
  ```
- <img src="/images/12.png" alt="Permissions" />
+ <img src="/images/1.png" alt="Permissions" />
+
+ <img src="/images/2.png" alt="Permissions" />
+
+<img src="/images/3.png" alt="Permissions" />
+
+<img src="/images/4.png" alt="Permissions" />
+
+
+<img src="/images/5.png" alt="Permissions" />
+
+
+<img src="/images/8.png" alt="Permissions" />
+
+
+ <img src="/images/6.png" alt="Permissions" />
  
+ <img src="/images/9.png" alt="Permissions" />
+
+<img src="/images/10.png" alt="Permissions" />
+
  <img src="/images/13.png" alt="Permissions" />
  <img src="/images/14.png" alt="Permissions" />
  <img src="/images/15.png" alt="Permissions" />
