@@ -4,9 +4,7 @@ pipeline {
   options {
     skipDefaultCheckout(true)
   }
-  parameters {
-    string(name: 'server_ip', defaultValue: '')
-  }
+
   environment {
     registry = "hossamalsankary/nodejs_app"
     registryCredential = 'docker_credentials'
@@ -17,14 +15,15 @@ pipeline {
     stage("install dependencies") {
 
       steps {
-        sh 'npm install'
+        sh ' pwd '
+        sh 'node --version'
       }
-      post {
-        always {
-          sh 'bash ./clearDockerImages.sh'
-        }
+      // post {
+      //   always {
+      //     sh 'bash ./clearDockerImages.sh'
+      //   }
 
-      }
+      // }
 
     }
 
@@ -42,8 +41,8 @@ pipeline {
         stage("Build") {
 
             steps {
-
-              sh 'npm run build'
+              sh 'pwd'
+              sh 'npm  --version'
             }
 
           }
