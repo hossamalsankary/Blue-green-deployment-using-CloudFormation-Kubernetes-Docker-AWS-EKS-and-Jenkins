@@ -1,5 +1,5 @@
 <img src="/Blank diagram(2).png" alt="Permissions" />
-skills:
+## skills:
 
     Working in AWS
     Using Jenkins to implement Continuous Integration and Continuous Deployment
