@@ -94,28 +94,5 @@ pipeline {
     }
 
 
-post{
-
-  always{
-      cleanWs(cleanWhenNotBuilt: false,
-        deleteDirs: true,
-        disableDeferredWipeout: true,
-        notFailBuild: true,
-        patterns: [
-          [pattern: '.gitignore', type: 'INCLUDE'],
-          [pattern: '.propsfile', type: 'EXCLUDE']
-        ])
-  }
-
-  success{
-         echo "========A executed successfully========"
-      sh 'bash ./clearDockerImages.sh'
-  }
-  failure{
-     sh 'bash ./clearDockerImages.sh'
-  }
-}
- 
-  }
 }
 
