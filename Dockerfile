@@ -1,5 +1,13 @@
-FROM nginx:alpine
-# Copy source code to working directory
-COPY index.html /usr/share/nginx/html
+FROM node:16-alpine
 
-RUN rm /usr/share/nginx/html/index.html
+ENV NODE_ENV='development'
+
+WORKDIR /opt
+
+COPY ["package*.json", "./"]
+
+RUN npm install 
+
+COPY . .
+
+CMD npm  start
