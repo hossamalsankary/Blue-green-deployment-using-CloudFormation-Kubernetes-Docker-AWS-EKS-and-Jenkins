@@ -87,11 +87,13 @@ pipeline {
       stage('create kubecontext file') {
       steps {
 
-          withAWS(region: 'us-east-2', credentials: 'aws') {
-             sh 'aws eks update-kubeconfig --region us-east-2 --name jenkins-cluster '
+        
+           withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+
+               sh 'aws eks update-kubeconfig --region us-east-2 --name jenkins-cluster '
                sh 'kubectl get nodes'
-        }
-       
+            
+            }
     }
 
 
