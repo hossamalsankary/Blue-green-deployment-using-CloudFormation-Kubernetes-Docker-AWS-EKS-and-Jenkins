@@ -178,11 +178,15 @@ pipeline {
          """
         
     
-          // update the blue app with new docker image
+          withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                 // update the blue app with new docker image
             // deploymet
            sh '  kubectl  apply  -f ./k8s/blue-deployment.yaml '
             // service
            sh '  kubectl  apply  -f ./k8s/blue-service.yaml '  
+
+           }
+   
 
 
         }
