@@ -86,10 +86,15 @@ pipeline {
 
     stage("Update K8s Green deployment with new image ") {
       steps {
-        sh """
-        sed -i 's|DOCKER"$registry:$BUILD_NUMBER|g' ./k8s/green-deployment.yaml
+
+        sh script: $/
+            sed -i 's/^\(DOCKER=*\).*$/\1$registry:$BUILD_NUMBER/' ./config/default.conf
+         /$
         
-         """
+        // sh """
+        // sed -i 's|DOCKER|$registry:$BUILD_NUMBER|g' ./k8s/green-deployment.yaml
+        
+        //  """
         
       }
 
