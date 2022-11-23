@@ -194,7 +194,7 @@ pipeline {
 
       stage('Destroy Green version'){
         steps{
-          sh 'bash ./bash-scripts/clear-green-deployment'
+          sh 'bash ./bash-scripts/clear-green-deployment.sh'
         }
       }
 
