@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #step1 create aws eks cluster
 eksctl create cluster \
-  --name jenkinstest2 \
+  --name blue-green-cluster \
   --region us-east-2 \
   --version 1.18 \
   --node-type t2.micro \
@@ -11,4 +11,4 @@ eksctl create cluster \
   --managed
   
 #step2 create kubeconfig file to store info of cluster so we can access it later and communicate with it using kubectl 
-aws eks --region us-east-2 update-kubeconfig --name jenkinstest2
+#aws eks --region us-east-2 update-kubeconfig --name jenkinstest2
