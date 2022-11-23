@@ -13,12 +13,14 @@ pipeline {
     // stage("install dependencies") {
 
     //   steps {
-      
+    //   dir("node-app"){
+
     //     sh 'npm install'
+    //   }
     //   }
     //   post {
     //     always {
-    //       sh 'bash ./clearDockerImages.sh'
+    //       sh 'bash ./bash-scripts/clearDockerImages.sh'
     //     }
 
     //   }
@@ -31,7 +33,10 @@ pipeline {
 
     //         steps {
 
+    //           dir("node-app"){
+
     //           sh 'npm run  test:unit'
+    //           }
 
     //         }
 
@@ -39,7 +44,10 @@ pipeline {
     //     stage("Build") {
 
     //         steps {
+    //           dir("node-app"){
     //            sh 'npm run build'
+
+    //           }
     //         }
 
     //       }
@@ -48,39 +56,42 @@ pipeline {
   
 
  
-    // stage("Build Docker Image") {
-    //   steps {
+    stage("Build Docker Image") {
+      steps {
+        
+        script {
+          dir("node-app"){
 
-    //     script {
-    //       dockerImage = docker.build registry + ":$BUILD_NUMBER"
-    //     }
-    //   }
-    //   post {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          }
+        }
+      }
+      post {
 
-    //     failure {
-    //       sh '  docker system prune --volumes -a -f '
-    //     }
-    //   }
-    // }
+        failure {
+           sh 'bash ./bash-scripts/clearDockerImages.sh'
+        }
+      }
+    }
 
-    // stage("push image to docker hup") {
-    //   steps {
-    //     script {
-    //       docker.withRegistry('', registryCredential) {
-    //         dockerImage.push()
-    //       }
-    //     }
-    //   }
-    // }
+    stage("push image to docker hup") {
+      steps {
+        script {
+          docker.withRegistry('', registryCredential) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
 
-    // stage("Test Docker Image In Dev Server ") {
-    //   steps {
-    //     sh ' docker run --name test_$BUILD_NUMBER -d -p 5000:8080 $registry:$BUILD_NUMBER '
-    //     sh 'sleep 2'
-    //     sh 'curl localhost:5000'
-    //   }
+    stage("Test Docker Image In Dev Server ") {
+      steps {
+        sh ' docker run --name test_$BUILD_NUMBER -d -p 5000:8080 $registry:$BUILD_NUMBER '
+        sh 'sleep 2'
+        sh 'curl localhost:5000'
+      }
 
-    // }
+    }
 
     
 
@@ -146,5 +157,10 @@ pipeline {
         }
       }
 
+  }
+  post{
+    failure{
+        sh 'bash ./bash-scripts/clearDockerImages.sh'
+    }
   }
 }
