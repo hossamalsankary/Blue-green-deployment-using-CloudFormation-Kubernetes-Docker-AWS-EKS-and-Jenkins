@@ -185,7 +185,7 @@ stage('create kubecontext file') {
 ```
 
 
-## stage(12) update blue app with new docker Image
+- stage(12) update blue app with new docker Image
 ```diff
 stage("update blue app with new docker Image ") {
 
