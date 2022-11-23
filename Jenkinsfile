@@ -15,7 +15,7 @@ pipeline {
     stage("install dependencies") {
 
       steps {
-        sh ' ls   '
+        sh ' ls  -alh '
         sh 'node --version'
       }
       // post {
