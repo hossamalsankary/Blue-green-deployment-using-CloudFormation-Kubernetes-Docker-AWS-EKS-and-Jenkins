@@ -86,17 +86,50 @@ pipeline {
 
       stage('create kubecontext file') {
       steps {
-
-        
-           withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+       withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
 
                sh 'aws eks update-kubeconfig --region us-east-2 --name jenkins-cluster '
                sh 'kubectl get nodes'
             
-            }
-    }
+         }
+        }
 
+      }
 
-}
+      stage("Make sure  that we have geen-namespace and blue-ns "){
+
+       withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+
+            // check for namespaces blue and green
+            sh 'bash ./bash-scripts/cheackForNameSpaces.sh'
+            
+         }
+      }
+
+    stage("Deploy blue deployment if not exsit "){
+
+        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+
+              // we do not want to destroy prodaction app but if that`s the first pipline deploy if anyway
+              sh 'bash  ./bash-scripts/check-if-blue-is-exist-ordeploy-it-if-not.sh'
+
+              
+          }
+        }
+
+       stage("Deploy Green deployment if not exsit "){
+
+       withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+
+            // update the greep app with new docker image
+            // deploymet
+           sh ' bash kubectl  apply  -f ./k8s/blue-deployment.yaml '
+            // service
+           sh 'bash  kubectl  apply  -f ./k8s/blue-service.yaml '  
+
+            
+         }
+      }
+
   }
 }

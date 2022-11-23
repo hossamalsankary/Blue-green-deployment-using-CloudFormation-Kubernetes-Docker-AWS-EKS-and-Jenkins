@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: green
+  name: green
+  namespace: green-deployment
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: green
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: green
+    spec:
+      containers:
+      - image: hossamalsankary/nodejs_app:49
+        name: green
+        ports:
+        - containerPort: 8080
+        resources: {}
+status: {}
