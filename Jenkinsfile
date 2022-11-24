@@ -85,7 +85,7 @@ pipeline {
       steps {
 
      sh """
-        sed - i 's|DOCKER|$registry:$BUILD_NUMBER|g' ./k8s/green-deployment.yaml
+        sed -i 's|DOCKER|$registry:$BUILD_NUMBER|g' ./k8s/green-deployment.yaml
       """
      
 
@@ -164,7 +164,7 @@ pipeline {
       steps {
 
         sh """
-        sed - i 's|hossamalsankary/nodejs_app:49|$registry:$BUILD_NUMBER|g' ./k8s/green-deployment.yaml
+        sed -i 's|hossamalsankary/nodejs_app:49|$registry:$BUILD_NUMBER|g' ./k8s/green-deployment.yaml
 
         """
 
