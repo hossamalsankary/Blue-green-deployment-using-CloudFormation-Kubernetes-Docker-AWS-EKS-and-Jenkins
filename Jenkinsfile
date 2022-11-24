@@ -146,7 +146,7 @@ pipeline {
     stage("Smoke Test") {
       steps {
 
-        sh 'bash ./bash-scripts/CheckForPodsGetReady.sh'
+        sh ' bash ./bash-scripts/CheckForPodsGetReady.sh'
 
         withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
           sh 'sleep 10'
