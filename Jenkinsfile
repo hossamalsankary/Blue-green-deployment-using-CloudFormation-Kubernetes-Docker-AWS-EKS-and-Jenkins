@@ -146,11 +146,11 @@ pipeline {
     stage("Smoke Test") {
       steps {
 
-        sh ' bash ./bash-scripts/CheckForPodsGetReady.sh'
 
         withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
           sh 'sleep 10'
           sh ' kubectl get service,pod --namespace=green-deployment --all-namespaces=true'
+          sh ' bash ./bash-scripts/CheckForPodsGetReady.sh'
           sh 'bash ./bash-scripts/smokeTest.sh'
 
         }

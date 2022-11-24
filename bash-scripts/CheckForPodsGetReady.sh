@@ -10,7 +10,7 @@ echo 'inidata' > blue
 
 watchPods  
 cat green
-while [[ ($(cat green) != *met*) || ($(cat blue) != *met*) ]]
+while [[ ($(cat green) != *met*) && ($(cat blue) != *met*) ]]
 do
     if [[ $(cat green) != *met* ]]
     then
