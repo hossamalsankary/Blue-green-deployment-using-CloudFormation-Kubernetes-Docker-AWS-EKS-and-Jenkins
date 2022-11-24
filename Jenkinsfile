@@ -163,12 +163,10 @@ pipeline {
 
       steps {
 
-        sh ""
-        "
+        sh """
         sed - i 's|hossamalsankary/nodejs_app:49|$registry:$BUILD_NUMBER|g' ./k8s/green-deployment.yaml
 
-        ""
-        "
+        """
 
         withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
           // update the blue app with new docker image
