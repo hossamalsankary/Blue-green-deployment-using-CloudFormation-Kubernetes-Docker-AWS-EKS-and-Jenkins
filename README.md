@@ -1,7 +1,6 @@
 <img src="/images/digram.png" alt="Permissions" />
 
-
-
+[![Watch the video](https://raw.githubusercontent.com/hossamalsankary/Blue-green-deployment-using-CloudFormation-Kubernetes-Docker-AWS-EKS-and-Jenkins/main/images/Screenshot%20from%202022-11-24%2022-10-48.png)](https://www.youtube.com/watch?v=KOOYfICoSm4)
 skills:
 
     Working in AWS
