@@ -191,8 +191,6 @@ stage("update blue app with new docker Image ") {
 
       steps {
 
-        sh ""
-        "
         sed - i 's|hossamalsankary/nodejs_app:49|$registry:$BUILD_NUMBER|g'. / k8s / green - deployment.yaml
 
         ""
