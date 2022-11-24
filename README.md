@@ -228,6 +228,7 @@ stage("update blue app with new docker Image ") {
  ```
 
  ```
+ ```
  <img src="/images/Screenshot from 2022-11-24 14-54-48.png.png" alt="Permissions" />
  
   <img src="/images/11.png" alt="Permissions" />
